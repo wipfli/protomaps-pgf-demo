@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Protomaps PGF Demo</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js'></script>
+    <script src="https://unpkg.com/pmtiles@3.0.6/dist/pmtiles.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+
+    maplibregl.setRTLTextPlugin(
+        'https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js',
+        false
+    );
+
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile);
+
+    const p = new pmtiles.PMTiles('https://wipfli.github.io/protomaps-pgf-demo/south-asia.pmtiles');
+
+    protocol.add(p);
+
+    p.getHeader().then(h => {
+        const map = new maplibregl.Map({
+            container: 'map',
+            zoom: h.maxZoom - 2,
+            center: [h.centerLon, h.centerLat],
+            style: 'style.json'
+        });
+    });
+</script>
+</body>
+</html>
