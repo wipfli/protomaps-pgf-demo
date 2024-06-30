@@ -28,13 +28,12 @@
 
     protocol.add(p);
 
-    p.getHeader().then(h => {
-        const map = new maplibregl.Map({
-            container: 'map',
-            zoom: h.maxZoom - 2,
-            center: [h.centerLon, h.centerLat],
-            style: 'style.json'
-        });
+    const map = new maplibregl.Map({
+        container: 'map',
+        zoom: 6.5,
+        center: [85, 27],
+        style: 'style.json',
+        hash: 'map'
     });
 </script>
 </body>
